@@ -39,14 +39,12 @@ public class StudentsController {
             return ResponseEntity.ok(studentDetails);
         }
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<StudentDetails> updateStudent(@RequestBody StudentDetails studentDetails) {
-        StudentDetails updatedStudentDetails = studentService.updateStudentById(studentDetails);
-        if (updatedStudentDetails == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(updatedStudentDetails);
-        }
+    public ResponseEntity<StudentDetails> updateStudentById(@PathVariable String id, @RequestBody StudentDetails studentDetails) {
+        studentDetails.setId(id);
+        StudentDetails updated = studentService.updateStudentById(studentDetails);
+        return updated == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
